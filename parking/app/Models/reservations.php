@@ -1,11 +1,13 @@
 <?php
 
+
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reservation extends Model 
+class reservations extends Model
 {
     use HasFactory;
 
@@ -25,6 +27,6 @@ class Reservation extends Model
 
     public function parking()
     {
-        return $this->belongsTo(parkings::class, 'parking_id');
+        return $this->belongsTo(Parkings::class, 'parking_id');
     }
 }
