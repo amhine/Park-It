@@ -28,4 +28,10 @@ route::post('/parking/store',[ParkingController::class,'store']);
 Route::put('/parking/modifier/{id}', [ParkingController::class, 'update']);
 Route::delete('/parking/supprimer', [ParkingController::class, 'destroy']);
 // route::post('/reservation',[ReservationController::class,'reserver']);
-Route::middleware('auth:sanctum')->post('/reservation', [ReservationController::class, 'reserver']);
+//  Route::middleware('auth:sanctum')->post('/reservation', [ReservationController::class,'reserverPlace']);
+Route::middleware('auth:sanctum')->group(function () {
+    // Routes de réservation
+    Route::post('/reservation', [ReservationController::class, 'reserverPlace']);
+    Route::delete('/annulereservation/{id}', [ReservationController::class, 'annulerReservation']);
+    Route::post('/initialiserplaces/{parkingId}', [ParkingController::class, 'initialiserPlaces']);
+});

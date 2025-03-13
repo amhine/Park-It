@@ -9,6 +9,7 @@ use App\Http\Requests\storparking;
 use App\Http\Requests\updateparking;
 use Illuminate\Support\Facades\DB;
 use App\Models\Parkings;
+use App\Models\Places;
 
 class ParkingController extends Controller
 {
@@ -96,8 +97,6 @@ class ParkingController extends Controller
 {
     try {
         $parking = Parkings::findOrFail($id);
-
-        // Validation des données avant la mise à jour
         $validatedData = $request->validated();
 
         $parking->update($validatedData);
@@ -133,4 +132,44 @@ class ParkingController extends Controller
             ], 500);
         }
     }
+    public function initialiserPlaces($parkingId)
+{
+    try {
+        $parking = Parkings::findOrFail($parkingId);
+        $placesExistantes = Places::where('parking_id', $parkingId)->count();
+        
+        if ($placesExistantes > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ce parking a déjà des places initialisées'
+            ], 400);
+        }
+        $places = [];
+        for ($i = 1; $i <= $parking->nombre_total_places; $i++) {
+            $places[] = [
+                'numero' => $i,
+                'parking_id' => $parkingId,
+                'est_disponible' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+        
+        Places::insert($places);
+        $parking->update(['places_disponibles' => $parking->nombre_total_places]);
+        
+        return response()->json([
+            'success' => true,
+            'message' => $parking->nombre_total_places . ' places ont été créées pour ce parking',
+            'data' => Places::where('parking_id', $parkingId)->get()
+        ], 201);
+        
+    } catch (\Throwable $th) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Erreur lors de l\'initialisation des places',
+            'error' => $th->getMessage()
+        ], 500);
+    }
+}
 }

@@ -17,6 +17,7 @@ class reservations extends Model
         'heure_depart',
         'user_id',
         'parking_id',
+        'place_id',
         'statut'
     ];
 
@@ -28,5 +29,9 @@ class reservations extends Model
     public function parking()
     {
         return $this->belongsTo(Parkings::class, 'parking_id');
+    }
+    public function place()
+    {
+        return $this->belongsTo(Places::class, 'place_id');
     }
 }

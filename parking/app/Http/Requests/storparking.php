@@ -25,12 +25,7 @@ class storparking extends FormRequest
             'titre' => 'required|string|max:255',
             'adress' => 'required|string|max:255',
             'nombre_total_places' => 'required|integer|min:1',
-            'places_disponibles' => [
-                'required',
-                'integer',
-                'min:0',
-                'max:' . $this->input('nombre_total_places', 1) 
-            ],
+            'places_disponibles' => ['required','integer','min:0','max:' . $this->input('nombre_total_places', 1)  ],
         ];
     }
 }
