@@ -55,3 +55,21 @@ class AdminController extends Controller
     }
 }
 
+
+    public function destroy(Request $request)
+    {
+        try {
+            $id = $request->id;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Parking supprimé avec succès'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong, please try again later.'
+            ], 500);
+        }
+    }
+    
