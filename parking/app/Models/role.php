@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class role extends Model
 {
     use HasFactory;
-    protected $table = 'role';
+    protected $table = 'roles';
 
     protected $fillable = [
         'nomrole'
@@ -16,6 +16,6 @@ class role extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'idrole'); // Assure-toi que la clé étrangère est bien "idrole"
+        return $this->hasMany(User::class, 'idrole'); 
     }
 }

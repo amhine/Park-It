@@ -20,9 +20,9 @@ use App\Http\Controllers\Api\AdminController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/auth/register', [LoginController::class, 'createUser']);
+Route::post('/auth/login', [LoginController::class, 'loginUser']);
 
-route::post('/auth/register',[LoginController::class,'createUser']);
-route::post('/auth/login',[LoginController::class,'loginUser']);
 route::get('/parking/search',[ParkingController::class,'searshParking']);
 route::post('/parking/store',[ParkingController::class,'store']);
 Route::put('/parking/modifier/{id}', [ParkingController::class, 'update']);
