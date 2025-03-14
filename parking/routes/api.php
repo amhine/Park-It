@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\ParkingController;
 use App\Http\Controllers\Api\ReservationController;
-
+use App\Http\Controllers\Api\AdminController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,11 +27,15 @@ route::get('/parking/search',[ParkingController::class,'searshParking']);
 route::post('/parking/store',[ParkingController::class,'store']);
 Route::put('/parking/modifier/{id}', [ParkingController::class, 'update']);
 Route::delete('/parking/supprimer', [ParkingController::class, 'destroy']);
-// route::post('/reservation',[ReservationController::class,'reserver']);
-//  Route::middleware('auth:sanctum')->post('/reservation', [ReservationController::class,'reserverPlace']);
 Route::middleware('auth:sanctum')->group(function () {
-    // Routes de réservation
     Route::post('/reservation', [ReservationController::class, 'reserverPlace']);
     Route::delete('/annulereservation/{id}', [ReservationController::class, 'annulerReservation']);
     Route::post('/initialiserplaces/{parkingId}', [ParkingController::class, 'initialiserPlaces']);
+    route::get('/afficherreservation',[ReservationController::class,'afficherReservationsUtilisateur']);
+    Route::put('/modifierreservation/{id}', [ReservationController::class, 'modifierReservation']);
+
 });
+route::post('/admin/parking',[AdminController::class,'store']);
+route::put('/admin/modifier/parking/{id}',[AdminController::class,'update']);
+route::delete('admin/supprimer/parking',[AdminController::class,'destroy']);
+route:: get('/admin/statistique',[AdminController::class,'statistique']);

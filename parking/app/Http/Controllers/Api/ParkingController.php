@@ -72,26 +72,7 @@ class ParkingController extends Controller
         }
     }
 
-    // public function update(updateparking  $request, $id)
-    // {
-    //     try {
-    //         $parking = Parkings::findOrFail($id);
-
-
-    //         $parking->update($request->all());
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Parking mis à jour avec succès',
-    //             'data' => $parking
-    //         ], 200);
-    //     } catch (\Throwable $th) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Something went wrong, please try again later.'
-    //         ], 500);
-    //     }
-    // }
+   
 
     public function update(updateparking $request, $id)
 {
