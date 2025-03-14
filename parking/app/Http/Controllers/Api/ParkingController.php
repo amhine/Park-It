@@ -74,27 +74,6 @@ class ParkingController extends Controller
 
    
 
-//     public function update(updateparking $request, $id)
-// {
-//     try {
-//         $parking = Parkings::findOrFail($id);
-//         $validatedData = $request->validated();
-
-//         $parking->update($validatedData);
-
-//         return response()->json([
-//             'success' => true,
-//             'message' => 'Parking mis à jour avec succès',
-//             'data' => $parking
-//         ], 200);
-//     } catch (\Throwable $th) {
-//         return response()->json([
-//             'status' => false,
-//             'message' => 'Une erreur est survenue, veuillez réessayer plus tard.',
-//             'error' => $th->getMessage()
-//         ], 500);
-//     }
-// }
 public function update(updateparking $request, $id)
 {
     try {
@@ -125,29 +104,13 @@ public function update(updateparking $request, $id)
 }
 
 
-    // public function destroy(Request $request)
-    // {
-    //     try {
-    //         $id = $request->id;
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Parking supprimé avec succès'
-    //         ], 200);
-    //     } catch (\Throwable $th) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Something went wrong, please try again later.'
-    //         ], 500);
-    //     }
-    // }
+    
 
     public function destroy(Request $request)
 {
     try {
         $id = $request->id;
 
-        // Vérification si le parking existe
         $parking = Parkings::find($id);
         if (!$parking) {
             return response()->json([
@@ -156,7 +119,6 @@ public function update(updateparking $request, $id)
             ], 404);
         }
 
-        // Suppression du parking
         $parking->delete();
 
         return response()->json([
@@ -172,51 +134,11 @@ public function update(updateparking $request, $id)
     }
 }
 
-//     public function initialiserPlaces($parkingId)
-// {
-//     try {
-//         $parking = Parkings::findOrFail($parkingId);
-//         $placesExistantes = Places::where('parking_id', $parkingId)->count();
-        
-//         if ($placesExistantes > 0) {
-//             return response()->json([
-//                 'success' => false,
-//                 'message' => 'Ce parking a déjà des places initialisées'
-//             ], 400);
-//         }
-//         $places = [];
-//         for ($i = 1; $i <= $parking->nombre_total_places; $i++) {
-//             $places[] = [
-//                 'numero' => $i,
-//                 'parking_id' => $parkingId,
-//                 'est_disponible' => true,
-//                 'created_at' => now(),
-//                 'updated_at' => now()
-//             ];
-//         }
-        
-//         Places::insert($places);
-//         $parking->update(['places_disponibles' => $parking->nombre_total_places]);
-        
-//         return response()->json([
-//             'success' => true,
-//             'message' => $parking->nombre_total_places . ' places ont été créées pour ce parking',
-//             'data' => Places::where('parking_id', $parkingId)->get()
-//         ], 201);
-        
-//     } catch (\Throwable $th) {
-//         return response()->json([
-//             'success' => false,
-//             'message' => 'Erreur lors de l\'initialisation des places',
-//             'error' => $th->getMessage()
-//         ], 500);
-//     }
-// }
 
 public function initialiserPlaces($parkingId)
 {
     try {
-        $parking = Parkings::findOrFail($parkingId);  // `findOrFail` renverra une exception 404 si non trouvé
+        $parking = Parkings::findOrFail($parkingId); 
         $placesExistantes = Places::where('parking_id', $parkingId)->count();
         
         if ($placesExistantes > 0) {
@@ -237,13 +159,13 @@ public function initialiserPlaces($parkingId)
             ];
         }
         
-        Places::insert($places);  // Insérer toutes les places dans la base de données
-        $parking->update(['places_disponibles' => $parking->nombre_total_places]);  // Mettre à jour les places disponibles
+        Places::insert($places);  
+        $parking->update(['places_disponibles' => $parking->nombre_total_places]);  
         
         return response()->json([
             'success' => true,
             'message' => $parking->nombre_total_places . ' places ont été créées pour ce parking',
-            'data' => Places::where('parking_id', $parkingId)->get()  // Renvoi des places créées
+            'data' => Places::where('parking_id', $parkingId)->get()  
         ], 201);
         
     } catch (\Throwable $th) {
