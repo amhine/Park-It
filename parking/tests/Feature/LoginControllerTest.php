@@ -13,8 +13,6 @@ class LoginControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-    
-        // Insérer les rôles dans la base de données de test
         DB::table('roles')->insert([
             ['id' => 1, 'nomrole' => 'admin', 'created_at' => now(), 'updated_at' => now()],
             ['id' => 2, 'nomrole' => 'utilisateur', 'created_at' => now(), 'updated_at' => now()],
@@ -28,7 +26,7 @@ class LoginControllerTest extends TestCase
             'email' => 'ni@gmail.com',
             'password' => 'nihadni',
             'password_confirmation' => 'nihadni',
-            'idrole' => 2, // Ajout d'idrole pour éviter l'erreur SQL
+            'idrole' => 2, 
         ];
 
         $response = $this->postJson('/api/auth/register', $data);
@@ -64,7 +62,7 @@ class LoginControllerTest extends TestCase
         $user = User::factory()->create([
             'email' => 'ni@gmail.com',
             'password' => bcrypt('nihadni'),
-            'idrole' => 2, // Ajout d'idrole pour éviter l'erreur SQL
+            'idrole' => 2, 
         ]);
 
         $response = $this->postJson('/api/auth/login', [
@@ -85,12 +83,12 @@ class LoginControllerTest extends TestCase
         $user = User::factory()->create([
             'email' => 'ni@gmail.com',
             'password' => bcrypt('nihadni'),
-            'idrole' => 2, // Ajout d'idrole pour éviter l'erreur SQL
+            'idrole' => 2, 
         ]);
 
         $response = $this->postJson('/api/auth/login', [
-            'email' => 'wrong-email@gmail.com', // Faux email pour tester l'échec
-            'password' => 'wrongpassword'
+            'email' => 'fauxemail@gmail.com', 
+            'password' => 'fauxpassword'
         ]);
 
         $response->assertStatus(401)
