@@ -72,4 +72,24 @@ class AdminController extends Controller
             ], 500);
         }
     }
-    
+    public function statistique()
+{
+    try {
+        $totalParkings = Parkings::count();
+        $totalPlaces = Parkings::sum('nombre_total_places');
+        $availablePlaces = Parkings::sum('places_disponibles');
+
+        return response()->json([
+            'total_parkings' => $totalParkings,
+            'total_places' => $totalPlaces,
+            'places_disponibles' => $availablePlaces
+        ], 200);
+    } catch (\Throwable $th) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Erreur lors de la récupération des statistiques.',
+        ], 500);
+    }
+}
+
+}
