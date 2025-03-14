@@ -32,3 +32,26 @@ class AdminController extends Controller
     }
 
    
+
+    public function update(updateparking $request, $id)
+{
+    try {
+        $parking = Parkings::findOrFail($id);
+        $validatedData = $request->validated();
+
+        $parking->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Parking mis à jour avec succès',
+            'data' => $parking
+        ], 200);
+    } catch (\Throwable $th) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Une erreur est survenue, veuillez réessayer plus tard.',
+            'error' => $th->getMessage()
+        ], 500);
+    }
+}
+
